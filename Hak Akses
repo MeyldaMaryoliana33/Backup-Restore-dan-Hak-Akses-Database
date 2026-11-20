@@ -1,0 +1,31 @@
+# Hak Akses Database
+# Hak akses (privilege)** menentukan operasi yang boleh dilakukan suatu akun:
+`SELECT` (baca), `INSERT` (tambah), `UPDATE` (ubah), `DELETE` (hapus).
+# Least privilege**: akun hanya diberi izin yang benar-benar dibutuhkan. Akun pembaca cukup `SELECT`.
+
+
+| `CREATE USER` | membuat akun |
+| `GRANT` | memberi izin |
+| `SHOW GRANTS` | memeriksa izin |
+| `REVOKE` | mencabut izin (akun tetap ada) |
+| `DROP USER` | menghapus akun |
+
+
+# codingan
+-- 1. Membuat akun khusus baca
+CREATE USER 'baca_kampus'@'localhost' IDENTIFIED BY 'SandiKuat123!';
+
+-- 2. Memberi izin SELECT pada database uji
+GRANT SELECT ON db_meyldamaryoliana_uji.* TO 'baca_kampus'@'localhost';
+
+-- 3. Memeriksa hak akses
+SHOW GRANTS FOR 'baca_kampus'@'localhost';
+
+-- 4. Mencabut izin SELECT
+REVOKE SELECT ON db_meyldamaryoliana_uji.* FROM 'baca_kampus'@'localhost';
+
+-- 5. Memeriksa lagi (tersisa GRANT USAGE saja)
+SHOW GRANTS FOR 'baca_kampus'@'localhost';
+
+-- 6. Menghapus akun percobaan
+DROP USER 'baca_kampus'@'localhost';
