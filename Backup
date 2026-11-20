@@ -1,0 +1,29 @@
+# Backup
+# Backup adalah proses membuat salinan struktur dan data database agar bisa dipulihkan saat diperlukan.
+# Export adalah cara membuat backup di phpMyAdmin, yaitu mengeluarkan database ke berkas.
+
+## Langkah
+1. Catat kondisi database (nama, jumlah tabel, jumlah data) dengan [backup.sql](backup.sql).
+2. phpMyAdmin → pilih `db_meyldamaryoliana` → Export → Custom → format SQL (struktur dan data) → Go.
+3. Ganti nama berkas hasil export dari `db_meyldamaryoliana.sql` menjadi `backup_kampus_250306018.sql`.
+
+## Hasil
+| Database | db_meyldamaryoliana |
+| Jumlah tabel | 7 (dosen, kelas_kuliah, krs, mahasiswa, mata_kuliah, nilai, program_studi) |
+| Data `mahasiswa` | 24 |
+| Data `dosen` | 15 |
+| Data `nilai` | 12 |
+
+# codingan
+-- Mencatat kondisi database sebelum backup
+
+-- Nama database aktif
+SELECT DATABASE();
+
+-- Jumlah tabel (hasil: 7)
+SHOW TABLES;
+
+-- Jumlah data pada tiga tabel pilihan
+SELECT COUNT(*) AS jumlah_mahasiswa FROM mahasiswa;  -- 24
+SELECT COUNT(*) AS jumlah_dosen     FROM dosen;      -- 15
+SELECT COUNT(*) AS jumlah_nilai     FROM nilai;      -- 12
