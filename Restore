@@ -1,0 +1,63 @@
+# Restore
+# Restore adalah proses mengembalikan struktur dan data dari file backup.
+# Import adalah cara restore di phpMyAdmin, yaitu membaca file `.sql` untuk membuat tabel dan mengisi data.
+# Restore dilakukan ke database uji yang namanya berbeda agar database utama tidak tertimpa.
+
+## Langkah
+1. Buat database `db_meyldamaryoliana_uji` ([restore.sql](restore.sql)).
+2. Pilih database uji → Import → pilih `backup_kampus_250306018.sql` → Go.
+3. Bandingkan tabel dan jumlah data kedua database dengan [restore.sql](restore.sql).
+
+## Hasil Verifikasi
+| mahasiswa | 24 | 24 |
+| dosen | 15 | 15 |
+| mata_kuliah | 18 | 18 |
+| kelas_kuliah | 15 | 15 |
+| krs | 24 | 24 |
+| nilai | 12 | 12 |
+| program_studi | 3 | 3 |
+| Total | 111 | 111 |
+
+
+# codingan
+-- Membuat database pengujian (nama harus berbeda dari database utama)
+CREATE DATABASE db_meyldamaryoliana_uji;
+
+-- Setelah file backup di-import ke database uji:
+
+-- Daftar tabel
+SHOW TABLES FROM db_meyldamaryoliana;
+SHOW TABLES FROM db_meyldamaryoliana_uji;
+
+-- Perbandingan jumlah data (diulang untuk setiap tabel)
+SELECT (SELECT COUNT(*) FROM db_meyldamaryoliana.mahasiswa)     AS jumlah_utama_mahasiswa,
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.mahasiswa) AS jumlah_uji_mahasiswa;
+
+-- Perbandingan seluruh tabel sekaligus
+SELECT 'mahasiswa' AS tabel,
+       (SELECT COUNT(*) FROM db_meyldamaryoliana.mahasiswa)     AS utama,
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.mahasiswa) AS uji
+UNION ALL
+SELECT 'dosen',
+       (SELECT COUNT(*) FROM db_meyldamaryoliana.dosen),
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.dosen)
+UNION ALL
+SELECT 'mata_kuliah',
+       (SELECT COUNT(*) FROM db_meyldamaryoliana.mata_kuliah),
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.mata_kuliah)
+UNION ALL
+SELECT 'kelas_kuliah',
+       (SELECT COUNT(*) FROM db_meyldamaryoliana.kelas_kuliah),
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.kelas_kuliah)
+UNION ALL
+SELECT 'krs',
+       (SELECT COUNT(*) FROM db_meyldamaryoliana.krs),
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.krs)
+UNION ALL
+SELECT 'nilai',
+       (SELECT COUNT(*) FROM db_meyldamaryoliana.nilai),
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.nilai)
+UNION ALL
+SELECT 'program_studi',
+       (SELECT COUNT(*) FROM db_meyldamaryoliana.program_studi),
+       (SELECT COUNT(*) FROM db_meyldamaryoliana_uji.program_studi);
